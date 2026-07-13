@@ -909,9 +909,19 @@ function handleSubmit(ev) {
     '— Sent via T.E. Lab website'
   );
   const btn = document.getElementById('submitBtn');
-  btn.textContent = 'Opening email... ✉️';
+  btn.textContent = 'Opening WhatsApp... 💬';
   btn.disabled = true;
-  window.location.href = 'mailto:tamalkrishna2006@gmail.com?subject=' + subject + '&body=' + body;
+  window. open(
+  'https://wa.me/919423276135?text=' +
+  encodeURIComponent(
+    '🌟 New Design Request - T.E. Lab\n\n' +
+    '👤 Name: ' + name + '\n' +
+    '📞 Contact: ' + contact + '\n' +
+    '🛠 Service: ' + service + '\n\n' +
+    '📝 Project Details:\n' + message
+  ),
+  '_blank'
+);
   setTimeout(() => {
     document.getElementById('successMsg').classList.add('show');
     f.reset();
