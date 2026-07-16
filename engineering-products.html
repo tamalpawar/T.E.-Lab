@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T.E. LAB Engineering Products, Websites & Apps</title>
+<meta name="description" content="T.E. LAB builds websites, Android apps, electronics projects, embedded projects, and robotics models for students and small businesses.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#07152f;
+  --ink-2:#112a55;
+  --blue:#1261ff;
+  --cyan:#55d7ff;
+  --gold:#ffc928;
+  --green:#19b96f;
+  --paper:#f7fbff;
+  --white:#ffffff;
+  --muted:#60708f;
+  --line:rgba(15,47,94,.14);
+  --line-strong:rgba(18,97,255,.28);
+  --shadow:0 18px 50px rgba(7,21,47,.14);
+  --font-h:'Playfair Display',serif;
+  --font-b:'Plus Jakarta Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-b);
+  background:var(--paper);
+  color:var(--ink);
+  overflow-x:hidden;
+}
+a{color:inherit}
+.site-nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1.5rem;
+  padding:1rem 3rem;
+  background:rgba(4,13,33,.94);
+  border-bottom:1px solid rgba(85,215,255,.18);
+  backdrop-filter:blur(18px);
+}
+.logo{
+  font-family:var(--font-h);
+  font-size:1.45rem;
+  font-weight:800;
+  color:var(--white);
+  text-decoration:none;
+  white-space:nowrap;
+}
+.logo span{color:var(--cyan)}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  list-style:none;
+  font-size:.86rem;
+  font-weight:700;
+}
+.nav-links a{
+  text-decoration:none;
+  color:#d8e6ff;
+  transition:color .18s ease;
+}
+.nav-links a:hover{color:var(--cyan)}
+.page-switch{
+  display:flex;
+  align-items:center;
+  gap:.25rem;
+  padding:.28rem;
+  border:1px solid rgba(85,215,255,.28);
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+}
+.page-switch a{
+  min-height:34px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:.45rem .95rem;
+  border-radius:999px;
+  text-decoration:none;
+  color:#d8e6ff;
+  font-size:.72rem;
+  font-weight:800;
+  white-space:nowrap;
+  transition:background .18s ease,color .18s ease,box-shadow .18s ease;
+}
+.page-switch a:hover{background:rgba(85,215,255,.14);color:var(--white)}
+.page-switch a.active{
+  background:var(--gold);
+  color:var(--ink);
+  box-shadow:0 10px 22px rgba(255,201,40,.24);
+}
+.nav-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
+  padding:.55rem 1rem;
+  border-radius:999px;
+  background:var(--blue);
+  color:var(--white)!important;
+  box-shadow:0 10px 24px rgba(18,97,255,.25);
+}
+.hero{
+  min-height:86vh;
+  display:flex;
+  align-items:center;
+  position:relative;
+  padding:8rem 3rem 4rem;
+  color:var(--white);
+  background:
+    linear-gradient(90deg,rgba(4,13,33,.96) 0%,rgba(6,20,50,.88) 42%,rgba(6,18,45,.48) 74%,rgba(6,18,45,.64) 100%),
+    url("assets/engineering-services-flyer.png") center right/cover no-repeat;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:44px 44px;
+  pointer-events:none;
+}
+.hero-inner{
+  position:relative;
+  z-index:1;
+  max-width:760px;
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:.55rem;
+  padding:.42rem .8rem;
+  border:1px solid rgba(85,215,255,.48);
+  color:#b9efff;
+  background:rgba(85,215,255,.08);
+  border-radius:999px;
+  font-size:.78rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0;
+  margin-bottom:1.35rem;
+}
+.eyebrow::before{
+  content:'';
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 18px var(--gold);
+}
+h1{
+  font-family:var(--font-h);
+  font-size:clamp(3rem,7vw,6.4rem);
+  line-height:.98;
+  font-weight:800;
+  max-width:760px;
+}
+.accent{color:var(--cyan)}
+.gold{color:var(--gold)}
+.hero-copy{
+  max-width:640px;
+  margin-top:1.4rem;
+  font-size:clamp(1rem,1.7vw,1.2rem);
+  line-height:1.75;
+  color:#dbe8ff;
+}
+.hero-actions{
+  display:flex;
+  gap:.9rem;
+  flex-wrap:wrap;
+  margin-top:2rem;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  padding:.82rem 1.18rem;
+  border-radius:999px;
+  border:1px solid transparent;
+  font-weight:800;
+  font-size:.92rem;
+  text-decoration:none;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--blue),#0aa7ff);
+  color:var(--white);
+  box-shadow:0 16px 34px rgba(18,97,255,.32);
+}
+.btn-light{
+  color:var(--white);
+  border-color:rgba(255,255,255,.36);
+  background:rgba(255,255,255,.08);
+}
+.btn-gold{
+  background:var(--gold);
+  color:var(--ink);
+  box-shadow:0 14px 30px rgba(255,201,40,.28);
+}
+.hero-facts{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(120px,1fr));
+  gap:.75rem;
+  margin-top:2.2rem;
+  max-width:720px;
+  list-style:none;
+}
+.hero-facts li{
+  min-height:78px;
+  padding:.85rem;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08);
+  border-radius:8px;
+}
+.fact-k{
+  display:block;
+  color:var(--gold);
+  font-weight:800;
+  font-size:.9rem;
+  margin-bottom:.2rem;
+}
+.fact-v{
+  color:#e9f2ff;
+  font-size:.78rem;
+  line-height:1.45;
+}
+.section{
+  padding:5.5rem 3rem;
+}
+.section-inner{
+  width:min(1160px,100%);
+  margin:0 auto;
+}
+.section-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:2rem;
+  margin-bottom:2.2rem;
+}
+.section-kicker{
+  color:var(--blue);
+  font-size:.8rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0;
+  margin-bottom:.5rem;
+}
+.section-title{
+  font-family:var(--font-h);
+  font-size:clamp(2.1rem,4vw,3.6rem);
+  line-height:1.05;
+  font-weight:800;
+}
+.section-lead{
+  max-width:420px;
+  color:var(--muted);
+  line-height:1.72;
+  font-size:.96rem;
+}
+.trust-strip{
+  background:var(--white);
+  border-bottom:1px solid var(--line);
+}
+.trust-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+.trust-item{
+  min-height:96px;
+  display:flex;
+  align-items:center;
+  gap:.85rem;
+  padding:1.25rem;
+  border-right:1px solid var(--line);
+}
+.trust-item:last-child{border-right:0}
+.trust-mark{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#ecf5ff;
+  color:var(--blue);
+  font-weight:800;
+  flex:0 0 auto;
+}
+.trust-title{
+  font-size:.95rem;
+  font-weight:800;
+}
+.trust-text{
+  margin-top:.15rem;
+  color:var(--muted);
+  font-size:.78rem;
+  line-height:1.45;
+}
+.services{
+  background:var(--paper);
+}
+.service-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1rem;
+}
+.service-card{
+  position:relative;
+  min-height:286px;
+  padding:1.45rem;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--white);
+  box-shadow:0 10px 28px rgba(7,21,47,.06);
+  overflow:hidden;
+}
+.service-card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:4px;
+  background:linear-gradient(90deg,var(--blue),var(--cyan),var(--gold));
+}
+.service-icon{
+  width:52px;
+  height:52px;
+  display:grid;
+  place-items:center;
+  border-radius:8px;
+  background:#eff6ff;
+  color:var(--blue);
+  font-weight:800;
+  margin-bottom:1rem;
+  border:1px solid #d8e8ff;
+}
+.service-card h3{
+  font-family:var(--font-h);
+  font-size:1.45rem;
+  line-height:1.15;
+  margin-bottom:.7rem;
+}
+.service-card p{
+  color:var(--muted);
+  line-height:1.65;
+  font-size:.9rem;
+}
+.ticks{
+  list-style:none;
+  margin-top:1rem;
+  display:grid;
+  gap:.48rem;
+  color:#273a5f;
+  font-size:.86rem;
+  font-weight:700;
+}
+.ticks li{
+  display:flex;
+  align-items:flex-start;
+  gap:.5rem;
+}
+.ticks li::before{
+  content:'';
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--gold);
+  margin-top:.43rem;
+  flex:0 0 auto;
+}
+.lab-band{
+  background:var(--ink);
+  color:var(--white);
+}
+.lab-grid{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:2.2rem;
+  align-items:center;
+}
+.lab-copy .section-kicker{color:var(--cyan)}
+.lab-copy .section-title{max-width:560px}
+.lab-copy p{
+  margin-top:1.2rem;
+  color:#d8e6ff;
+  line-height:1.75;
+  max-width:620px;
+}
+.project-list{
+  display:grid;
+  gap:.75rem;
+}
+.project-row{
+  display:grid;
+  grid-template-columns:68px 1fr;
+  gap:1rem;
+  align-items:center;
+  padding:1rem;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:8px;
+  background:rgba(255,255,255,.06);
+}
+.project-code{
+  width:58px;
+  height:58px;
+  border-radius:8px;
+  display:grid;
+  place-items:center;
+  background:rgba(85,215,255,.12);
+  color:var(--cyan);
+  font-weight:800;
+  border:1px solid rgba(85,215,255,.28);
+}
+.project-row h3{
+  font-size:1rem;
+  margin-bottom:.2rem;
+}
+.project-row p{
+  color:#c8d7ee;
+  font-size:.84rem;
+  line-height:1.5;
+}
+.process{
+  background:var(--white);
+}
+.process-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1rem;
+}
+.process-step{
+  padding:1.25rem;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);
+}
+.step-num{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--blue);
+  color:var(--white);
+  font-weight:800;
+  margin-bottom:1rem;
+}
+.process-step h3{
+  font-size:1rem;
+  margin-bottom:.45rem;
+}
+.process-step p{
+  color:var(--muted);
+  line-height:1.62;
+  font-size:.84rem;
+}
+.flyer-section{
+  background:#eef6ff;
+}
+.flyer-layout{
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:2.2rem;
+  align-items:center;
+}
+.flyer-copy p{
+  color:var(--muted);
+  line-height:1.75;
+  margin-top:1rem;
+}
+.flyer-points{
+  list-style:none;
+  margin-top:1.2rem;
+  display:grid;
+  gap:.65rem;
+  color:#243658;
+  font-weight:700;
+}
+.flyer-points li{
+  display:flex;
+  gap:.55rem;
+  align-items:flex-start;
+}
+.flyer-points li::before{
+  content:'';
+  width:9px;
+  height:9px;
+  margin-top:.45rem;
+  background:var(--green);
+  border-radius:50%;
+  flex:0 0 auto;
+}
+.flyer-preview{
+  display:block;
+  width:100%;
+  max-height:720px;
+  object-fit:contain;
+  border-radius:8px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--line-strong);
+  background:var(--white);
+}
+.contact{
+  color:var(--white);
+  background:
+    linear-gradient(135deg,rgba(7,21,47,.97),rgba(17,42,85,.95)),
+    url("assets/engineering-services-flyer.png") center/cover no-repeat;
+}
+.contact-grid{
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:2rem;
+  align-items:start;
+}
+.contact .section-kicker{color:var(--gold)}
+.contact .section-lead{color:#d5e5ff}
+.contact-cards{
+  margin-top:1.4rem;
+  display:grid;
+  gap:.75rem;
+}
+.contact-card{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:1rem;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:8px;
+  background:rgba(255,255,255,.08);
+  text-decoration:none;
+}
+.contact-card strong{display:block;margin-bottom:.15rem}
+.contact-card span{
+  color:#c9d9ef;
+  font-size:.86rem;
+}
+.contact-dot{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--gold);
+  color:var(--ink);
+  font-weight:800;
+  flex:0 0 auto;
+}
+.contact-form{
+  padding:1.4rem;
+  border-radius:8px;
+  background:rgba(255,255,255,.98);
+  color:var(--ink);
+  box-shadow:var(--shadow);
+}
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+}
+.form-group{margin-bottom:1rem}
+.form-group label{
+  display:block;
+  margin-bottom:.4rem;
+  font-size:.78rem;
+  font-weight:800;
+  color:#415173;
+}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  min-height:46px;
+  border:1px solid #d7e2f1;
+  border-radius:8px;
+  background:#f7fbff;
+  padding:.82rem .9rem;
+  font:inherit;
+  color:var(--ink);
+  outline:none;
+}
+.form-group textarea{
+  min-height:128px;
+  resize:vertical;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:var(--blue);
+  background:var(--white);
+  box-shadow:0 0 0 3px rgba(18,97,255,.12);
+}
+.submit-btn{
+  width:100%;
+  min-height:50px;
+  border:0;
+  border-radius:999px;
+  background:linear-gradient(135deg,var(--blue),#0aa7ff);
+  color:var(--white);
+  font:inherit;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 14px 28px rgba(18,97,255,.25);
+}
+.submit-btn:hover{filter:brightness(1.03)}
+.site-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+  padding:1.6rem 3rem;
+  background:var(--white);
+  border-top:1px solid var(--line);
+  color:#4a5a78;
+  font-size:.86rem;
+}
+.footer-links{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+  font-weight:800;
+}
+.footer-links a{text-decoration:none}
+.footer-links a:hover{color:var(--blue)}
+.reveal{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .55s ease,transform .55s ease;
+}
+.reveal.visible{
+  opacity:1;
+  transform:none;
+}
+@media(max-width:980px){
+  .site-nav{padding:1rem 1.4rem}
+  .nav-links{gap:.9rem;font-size:.8rem}
+  .hero{padding:7.4rem 1.4rem 3rem;background-position:center}
+  .hero-facts{grid-template-columns:repeat(2,1fr)}
+  .section{padding:4.5rem 1.4rem}
+  .section-head{display:block}
+  .section-lead{margin-top:1rem}
+  .trust-grid,.service-grid,.process-grid{grid-template-columns:repeat(2,1fr)}
+  .lab-grid,.flyer-layout,.contact-grid{grid-template-columns:1fr}
+}
+@media(max-width:660px){
+  .site-nav{
+    position:absolute;
+    align-items:flex-start;
+    flex-direction:column;
+    gap:.7rem;
+  }
+  .nav-links{
+    width:100%;
+    flex-wrap:wrap;
+    gap:.7rem 1rem;
+  }
+  .page-switch{width:100%;justify-content:center}
+  .page-switch a{flex:1;padding:.45rem .55rem;font-size:.68rem}
+  .nav-cta{min-height:34px;padding:.48rem .85rem}
+  .hero{min-height:82vh;padding-top:9.4rem}
+  .hero-facts,.trust-grid,.service-grid,.process-grid,.form-row{grid-template-columns:1fr}
+  .trust-item{border-right:0;border-bottom:1px solid var(--line)}
+  .trust-item:last-child{border-bottom:0}
+  .service-card{min-height:0}
+  .site-footer{padding:1.4rem}
+}
+</style>
+</head>
+<body>
+<header class="site-nav">
+  <a class="logo" href="te-lab_2.html">T.E. <span>LAB</span></a>
+  <div class="page-switch" aria-label="Switch T.E. Lab service page">
+    <a href="te-lab_2.html">Graphic Design</a>
+    <a href="engineering-products.html" class="active" aria-current="page">Engineering Products</a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Products</a></li>
+    <li><a href="#engineering">Engineering</a></li>
+    <li><a href="#contact" class="nav-cta">Start Project</a></li>
+  </ul>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="eyebrow reveal">New services by T.E. LAB</div>
+      <h1 class="reveal">Engineering Projects & <span class="accent">Digital Builds</span></h1>
+      <p class="hero-copy reveal">We build websites, Android apps, electronics projects, embedded projects, and robotics models for students, startups, and small businesses.</p>
+      <div class="hero-actions reveal">
+        <a class="btn btn-primary" href="#contact">Book Your Project</a>
+        <a class="btn btn-light" href="#services">View Services</a>
+        <a class="btn btn-gold" href="tel:+918668679211">Call 8668679211</a>
+      </div>
+      <ul class="hero-facts reveal">
+        <li><span class="fact-k">Fast</span><span class="fact-v">Clear timeline and quick delivery.</span></li>
+        <li><span class="fact-k">Reliable</span><span class="fact-v">Tested builds with clean handover.</span></li>
+        <li><span class="fact-k">Affordable</span><span class="fact-v">Budget friendly project packages.</span></li>
+        <li><span class="fact-k">All Branches</span><span class="fact-v">Mini, major, embedded, and robotics builds.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="trust-strip">
+    <div class="section-inner trust-grid">
+      <div class="trust-item">
+        <div class="trust-mark">Q</div>
+        <div><div class="trust-title">Quality Work</div><div class="trust-text">Neat design, wiring, code, and presentation.</div></div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-mark">T</div>
+        <div><div class="trust-title">On Time Delivery</div><div class="trust-text">Planned milestones before your submission date.</div></div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-mark">B</div>
+        <div><div class="trust-title">Budget Friendly</div><div class="trust-text">Built around what your project actually needs.</div></div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-mark">S</div>
+        <div><div class="trust-title">100% Satisfaction</div><div class="trust-text">Support through final demo and corrections.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section services" id="services">
+    <div class="section-inner">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker reveal">Website, app, and project making</div>
+          <h2 class="section-title reveal">What We Build</h2>
+        </div>
+        <p class="section-lead reveal">Choose a full digital product, a college engineering project, or a complete idea-to-launch package.</p>
+      </div>
+
+      <div class="service-grid">
+        <article class="service-card reveal">
+          <div class="service-icon">&lt;/&gt;</div>
+          <h3>Website Development</h3>
+          <p>Custom websites for portfolios, businesses, events, services, and product pages.</p>
+          <ul class="ticks">
+            <li>Responsive design</li>
+            <li>Fast and secure pages</li>
+            <li>SEO friendly structure</li>
+            <li>GitHub Pages ready</li>
+          </ul>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-icon">APP</div>
+          <h3>App Development</h3>
+          <p>Android app projects with clean UI, smooth flow, and practical feature planning.</p>
+          <ul class="ticks">
+            <li>User friendly UI/UX</li>
+            <li>Smooth performance</li>
+            <li>Scalable screens</li>
+            <li>Project documentation</li>
+          </ul>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-icon">IoT</div>
+          <h3>Electronics Projects</h3>
+          <p>Sensor based and microcontroller projects for practical demos and submissions.</p>
+          <ul class="ticks">
+            <li>Arduino and sensors</li>
+            <li>Automation concepts</li>
+            <li>Mini and major projects</li>
+            <li>Testing support</li>
+          </ul>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-icon">EMB</div>
+          <h3>Embedded Projects</h3>
+          <p>Microcontroller based projects with sensors, displays, modules, and clean demo logic.</p>
+          <ul class="ticks">
+            <li>Arduino and ESP boards</li>
+            <li>Sensor integration</li>
+            <li>Display and module support</li>
+            <li>Code explanation</li>
+          </ul>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-icon">BOT</div>
+          <h3>Robotics Models</h3>
+          <p>Working robotics models for college submissions, demos, and prototype presentations.</p>
+          <ul class="ticks">
+            <li>Robot car models</li>
+            <li>Obstacle and sensor logic</li>
+            <li>Neat hardware setup</li>
+            <li>Demo guidance</li>
+          </ul>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-icon">GO</div>
+          <h3>Idea To Launch</h3>
+          <p>From concept discussion to build, testing, visuals, and final project delivery.</p>
+          <ul class="ticks">
+            <li>Idea selection</li>
+            <li>Build plan</li>
+            <li>Poster or PPT support</li>
+            <li>Final handover</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section lab-band" id="engineering">
+    <div class="section-inner lab-grid">
+      <div class="lab-copy">
+        <div class="section-kicker reveal">Engineering projects for all branches</div>
+        <h2 class="section-title reveal">Practical builds that are ready for demo day.</h2>
+        <p class="reveal">Whether you need a smart sensor model, an embedded prototype, a robotics model, or a complete web/app project, T.E. LAB can help you shape the idea, build it, test it, and present it clearly.</p>
+        <div class="hero-actions reveal">
+          <a class="btn btn-gold" href="#contact">Share Your Requirement</a>
+          <a class="btn btn-light" href="https://wa.me/918668679211" target="_blank" rel="noopener">WhatsApp Now</a>
+        </div>
+      </div>
+
+      <div class="project-list">
+        <div class="project-row reveal">
+          <div class="project-code">ELE</div>
+          <div><h3>Electronics Projects</h3><p>Distance meter, soil moisture, sensor alarms, automation systems, and custom ideas.</p></div>
+        </div>
+        <div class="project-row reveal">
+          <div class="project-code">EMB</div>
+          <div><h3>Embedded Projects</h3><p>Arduino, ESP, sensors, displays, modules, and clean code flow for practical demos.</p></div>
+        </div>
+        <div class="project-row reveal">
+          <div class="project-code">BOT</div>
+          <div><h3>Robotics Models</h3><p>Robot car builds, obstacle logic, sensor movement, and working prototype support.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section process" id="process">
+    <div class="section-inner">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker reveal">Simple process</div>
+          <h2 class="section-title reveal">From Idea To Launch</h2>
+        </div>
+        <p class="section-lead reveal">You bring the requirement. We convert it into a build plan, make the project, test it, and help you present it confidently.</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-step reveal"><div class="step-num">1</div><h3>Discuss</h3><p>Tell us your branch, deadline, budget, and project topic or rough idea.</p></div>
+        <div class="process-step reveal"><div class="step-num">2</div><h3>Plan</h3><p>We decide the features, components, pages, screens, or model structure.</p></div>
+        <div class="process-step reveal"><div class="step-num">3</div><h3>Build</h3><p>The website, app, circuit, model, or prototype is created and checked.</p></div>
+        <div class="process-step reveal"><div class="step-num">4</div><h3>Deliver</h3><p>You get the final build with demo support, files, and explanation points.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section flyer-section" id="flyer">
+    <div class="section-inner flyer-layout">
+      <div class="flyer-copy">
+        <div class="section-kicker reveal">New feature flyer</div>
+        <h2 class="section-title reveal">Websites, apps, and engineering projects in one place.</h2>
+        <p class="reveal">This page is based on the new T.E. LAB flyer, with the same promise: creative design, smart code, powerful performance, and project support for all branches.</p>
+        <ul class="flyer-points reveal">
+          <li>Website and app development</li>
+          <li>Electronics and embedded projects</li>
+          <li>Working robotics models</li>
+          <li>Fast, reliable, and affordable delivery</li>
+        </ul>
+      </div>
+      <img class="flyer-preview reveal" src="assets/engineering-services-flyer.png" alt="T.E. LAB flyer for websites, apps, and engineering projects">
+    </div>
+  </section>
+
+  <section class="section contact" id="contact">
+    <div class="section-inner contact-grid">
+      <div>
+        <div class="section-kicker reveal">Let's build something amazing together</div>
+        <h2 class="section-title reveal">Start your project with T.E. LAB.</h2>
+        <p class="section-lead reveal">Send your project requirement, branch, deadline, and budget. For orders, message +91 86686 79211 or email ai2901672@gmail.com.</p>
+        <div class="contact-cards reveal">
+          <a class="contact-card" href="tel:+918668679211"><div class="contact-dot">C</div><div><strong>Call</strong><span>+91 86686 79211</span></div></a>
+          <a class="contact-card" href="https://wa.me/918668679211" target="_blank" rel="noopener"><div class="contact-dot">W</div><div><strong>WhatsApp Orders</strong><span>Message this number for orders</span></div></a>
+          <a class="contact-card" href="mailto:ai2901672@gmail.com"><div class="contact-dot">M</div><div><strong>Email</strong><span>ai2901672@gmail.com</span></div></a>
+        </div>
+      </div>
+
+      <form class="contact-form reveal" id="projectForm" onsubmit="sendProjectRequest(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Your Name *</label>
+            <input id="name" name="name" type="text" placeholder="Full name" required>
+          </div>
+          <div class="form-group">
+            <label for="contactInfo">Phone / Email *</label>
+            <input id="contactInfo" name="contactInfo" type="text" placeholder="How should we contact you?" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="service">Service Needed *</label>
+            <select id="service" name="service" required>
+              <option value="" disabled selected>Select a service</option>
+              <option>Website Development</option>
+              <option>App Development</option>
+              <option>Electronics Project</option>
+              <option>Embedded Project</option>
+              <option>Robotics Model</option>
+              <option>Complete Idea To Launch Package</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="deadline">Deadline</label>
+            <input id="deadline" name="deadline" type="text" placeholder="Example: 10 days">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">Project Details *</label>
+          <textarea id="message" name="message" placeholder="Tell us your branch, topic, features, components, app screens, website pages, or model idea." required></textarea>
+        </div>
+        <button class="submit-btn" type="submit" id="submitBtn">Send Project Request</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div>T.E. LAB - Websites, Apps & Engineering Products</div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((entry, index) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), index * 45);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(item => observer.observe(item));
+
+function sendProjectRequest(event) {
+  event.preventDefault();
+  const form = event.target;
+  const subject = encodeURIComponent('New T.E. LAB Project Request - ' + form.service.value);
+  const body = encodeURIComponent(
+    'Hi T.E. LAB,\n\n' +
+    'Name: ' + form.name.value + '\n' +
+    'Contact: ' + form.contactInfo.value + '\n' +
+    'Service: ' + form.service.value + '\n' +
+    'Deadline: ' + (form.deadline.value || 'Not mentioned') + '\n\n' +
+    'Project Details:\n' + form.message.value + '\n\n' +
+    'Sent from the Engineering Products page.'
+  );
+  const button = document.getElementById('submitBtn');
+  button.textContent = 'Opening email...';
+  button.disabled = true;
+  window.location.href = 'mailto:ai2901672@gmail.com?subject=' + subject + '&body=' + body;
+  setTimeout(() => {
+    button.textContent = 'Send Project Request';
+    button.disabled = false;
+    form.reset();
+  }, 1400);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T.E. Lab — by Tamalkrishna Pawar</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --sky:#87ceeb;
+  --sky-light:#c9e9f7;
+  --sky-pale:#e8f6fc;
+  --pink:#f4b8cc;
+  --pink-light:#fad6e3;
+  --pink-pale:#fef0f5;
+  --mint:#b8e8d4;
+  --mint-pale:#e4f8f0;
+  --lav:#c9b8f0;
+  --lav-pale:#ede8fc;
+  --yellow:#fde8a0;
+  --yellow-pale:#fff8e1;
+  --peach:#ffd0b0;
+  --peach-pale:#fff0e6;
+  --white:#ffffff;
+  --bg:#f7f4ff;
+  --bg2:#ffffff;
+  --text:#1a1535;
+  --text2:#5a5370;
+  --text3:#9b93b0;
+  --border:rgba(135,206,235,0.3);
+  --font-h:'Playfair Display',serif;
+  --font-b:'Plus Jakarta Sans',sans-serif;
+  --shadow:0 4px 30px rgba(135,206,235,0.25);
+  --shadow-pink:0 4px 30px rgba(244,184,204,0.3);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);overflow-x:hidden;}
+
+/* CURSOR */
+.cursor{
+  width:16px;height:16px;border-radius:50%;
+  background:linear-gradient(135deg,var(--sky),var(--pink));
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,opacity .2s;
+  box-shadow:0 0 12px rgba(135,206,235,0.6);
+}
+.cursor.big{width:44px;height:44px;opacity:.6;}
+
+/* FLOATING SHAPES BG */
+.floaties{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.flt{position:absolute;border-radius:50%;opacity:.35;animation:fltmove 20s ease-in-out infinite alternate;}
+.flt1{width:400px;height:400px;background:radial-gradient(circle,var(--sky-pale),transparent 70%);top:-100px;right:-100px;animation-duration:18s;}
+.flt2{width:350px;height:350px;background:radial-gradient(circle,var(--pink-pale),transparent 70%);bottom:10%;left:-80px;animation-duration:22s;animation-delay:-8s;}
+.flt3{width:250px;height:250px;background:radial-gradient(circle,var(--lav-pale),transparent 70%);top:40%;left:30%;animation-duration:15s;animation-delay:-5s;}
+.flt4{width:200px;height:200px;background:radial-gradient(circle,var(--mint-pale),transparent 70%);bottom:20%;right:20%;animation-duration:17s;animation-delay:-3s;}
+@keyframes fltmove{0%{transform:translate(0,0)scale(1);}50%{transform:translate(25px,-15px)scale(1.04);}100%{transform:translate(-15px,20px)scale(.97);}}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;
+  padding:1.3rem 3rem;
+  background:rgba(247,244,255,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(135,206,235,0.2);
+}
+.logo{
+  font-family:var(--font-h);font-size:1.55rem;font-weight:800;
+  text-decoration:none;
+  background:linear-gradient(135deg,#5ab4e0,#e87da8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:.02em;
+}
+.nav-links{display:flex;gap:2.2rem;list-style:none;align-items:center;}
+.nav-links a{font-size:.82rem;font-weight:600;color:var(--text2);text-decoration:none;letter-spacing:.05em;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.page-switch{
+  display:flex;align-items:center;gap:.25rem;
+  padding:.28rem;border:1.5px solid rgba(18,97,255,.22);
+  border-radius:999px;background:rgba(255,255,255,.72);
+  box-shadow:0 6px 22px rgba(18,97,255,.08);
+}
+.page-switch a{
+  min-height:34px;display:inline-flex;align-items:center;justify-content:center;
+  padding:.45rem .95rem;border-radius:999px;text-decoration:none;
+  font-size:.72rem;font-weight:800;color:#36506d;white-space:nowrap;
+  transition:background .2s,color .2s,box-shadow .2s;
+}
+.page-switch a:hover{background:var(--sky-pale);color:#0a54c5;}
+.page-switch a.active{
+  background:linear-gradient(135deg,#1261ff,#55d7ff);
+  color:#fff;box-shadow:0 8px 18px rgba(18,97,255,.22);
+}
+.nav-cta{
+  background:linear-gradient(135deg,var(--sky),var(--pink));
+  color:var(--white)!important;
+  padding:.55rem 1.5rem!important;
+  border-radius:50px!important;
+  box-shadow:0 4px 18px rgba(135,206,235,0.4)!important;
+  transition:transform .2s,box-shadow .2s!important;
+}
+.nav-cta:hover{transform:translateY(-2px)!important;box-shadow:0 6px 24px rgba(135,206,235,0.55)!important;}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:flex-start;
+  padding:8rem 3rem 4rem;
+  position:relative;overflow:hidden;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  background:var(--sky-pale);border:1.5px solid var(--sky);
+  color:#3a9cc5;padding:.5rem 1.3rem;border-radius:50px;
+  margin-bottom:2rem;position:relative;z-index:1;
+  animation:pop .7s .1s both;
+}
+.hero-tag::before{content:'✿';font-size:.9rem;}
+
+@keyframes pop{from{opacity:0;transform:scale(.9) translateY(10px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+
+.hero-title{
+  font-family:var(--font-h);
+  font-size:clamp(3.5rem,9vw,8rem);
+  font-weight:800;line-height:1.0;letter-spacing:-.02em;
+  position:relative;z-index:1;animation:rise .8s .2s both;
+  color:var(--text);
+}
+.hero-title .sky-txt{
+  background:linear-gradient(135deg,#5ab4e0,#87ceeb);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-title .pink-txt{
+  background:linear-gradient(135deg,#e87da8,#f4b8cc);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+.hero-sub{
+  font-size:1.05rem;max-width:520px;color:var(--text2);
+  line-height:1.8;margin-top:1.8rem;position:relative;z-index:1;
+  font-weight:400;animation:rise .8s .35s both;
+}
+.hero-sub b{color:var(--text);font-weight:700;}
+
+.hero-pills{
+  display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem;
+  position:relative;z-index:1;animation:rise .8s .45s both;
+}
+.pill{
+  font-size:.72rem;font-weight:600;padding:.38rem .95rem;border-radius:50px;
+  letter-spacing:.05em;
+}
+.pl-sky{background:var(--sky-pale);color:#2e8fb5;border:1px solid var(--sky);}
+.pl-pink{background:var(--pink-pale);color:#c45a80;border:1px solid var(--pink);}
+.pl-mint{background:var(--mint-pale);color:#2a9967;border:1px solid var(--mint);}
+.pl-lav{background:var(--lav-pale);color:#6a48c8;border:1px solid var(--lav);}
+.pl-yellow{background:var(--yellow-pale);color:#b07a00;border:1px solid var(--yellow);}
+.pl-peach{background:var(--peach-pale);color:#b05520;border:1px solid var(--peach);}
+
+.hero-btns{
+  display:flex;gap:1rem;margin-top:2.2rem;flex-wrap:wrap;
+  position:relative;z-index:1;animation:rise .8s .5s both;
+}
+.btn-sky{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.95rem 2.2rem;border-radius:50px;font-weight:700;font-size:.9rem;
+  background:linear-gradient(135deg,#5ab4e0,#87ceeb);
+  color:var(--white);text-decoration:none;
+  box-shadow:0 6px 22px rgba(135,206,235,0.45);
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-sky:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(135,206,235,0.6);}
+.btn-pink{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.95rem 2.2rem;border-radius:50px;font-weight:600;font-size:.9rem;
+  background:linear-gradient(135deg,var(--pink-pale),var(--pink));
+  color:#c45a80;text-decoration:none;border:1.5px solid var(--pink);
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-pink:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(244,184,204,0.5);}
+
+/* FLOATING CARDS HERO */
+.hero-cards{
+  position:absolute;right:3rem;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:1rem;
+  z-index:1;animation:rise 1s .6s both;
+}
+.mc{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:18px;padding:1rem 1.3rem;
+  display:flex;align-items:center;gap:.9rem;
+  min-width:210px;
+  box-shadow:0 4px 20px rgba(135,206,235,0.15);
+  transition:transform .3s,box-shadow .3s;
+}
+.mc:hover{transform:translateX(-6px);box-shadow:0 8px 30px rgba(135,206,235,0.25);}
+.mc:nth-child(2){transform:translateX(22px);}
+.mc:nth-child(2):hover{transform:translateX(16px);}
+.mc:nth-child(4){transform:translateX(12px);}
+.mc:nth-child(4):hover{transform:translateX(6px);}
+.mc-icon{
+  width:42px;height:42px;border-radius:12px;display:flex;align-items:center;
+  justify-content:center;font-size:1.3rem;flex-shrink:0;
+}
+.mi1{background:var(--sky-pale);}
+.mi2{background:var(--pink-pale);}
+.mi3{background:var(--mint-pale);}
+.mi4{background:var(--lav-pale);}
+.mi5{background:var(--yellow-pale);}
+.mc-txt{font-size:.82rem;font-weight:700;color:var(--text);line-height:1.3;}
+.mc-txt span{display:block;color:var(--text3);font-size:.7rem;font-weight:400;margin-top:.1rem;}
+
+/* SPECIALTY BANNER */
+.specialty{
+  background:linear-gradient(135deg,var(--sky-pale),var(--pink-pale));
+  border-top:2px solid var(--sky-light);
+  border-bottom:2px solid var(--pink-light);
+  padding:2.5rem 3rem;
+  display:flex;align-items:center;justify-content:center;gap:2rem;
+  flex-wrap:wrap;position:relative;z-index:1;
+}
+.spec-badge{
+  background:var(--white);border:2px solid var(--sky);
+  border-radius:20px;padding:1.2rem 2rem;
+  display:flex;align-items:center;gap:1rem;
+  box-shadow:var(--shadow);transition:transform .2s;
+}
+.spec-badge:hover{transform:translateY(-4px);}
+.spec-badge.star{border-color:var(--pink);box-shadow:var(--shadow-pink);}
+.spec-icon{font-size:2rem;}
+.spec-text{font-size:.9rem;font-weight:700;color:var(--text);}
+.spec-text span{display:block;font-size:.72rem;font-weight:400;color:var(--text3);margin-top:.1rem;}
+.star-tag{
+  background:linear-gradient(135deg,var(--pink),#e87da8);
+  color:var(--white);font-size:.62rem;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;padding:.2rem .6rem;border-radius:50px;
+  margin-left:.5rem;vertical-align:middle;
+}
+
+/* MARQUEE */
+.marquee-wrap{
+  overflow:hidden;padding:.9rem 0;
+  background:linear-gradient(90deg,var(--sky-light),var(--pink-light),var(--mint),var(--lav),var(--yellow),var(--sky-light));
+  background-size:300%;animation:gradmove 8s linear infinite;
+}
+@keyframes gradmove{0%{background-position:0%}100%{background-position:300%}}
+.marquee-track{display:flex;gap:2.5rem;animation:marq 22s linear infinite;white-space:nowrap;}
+.marquee-item{
+  font-family:var(--font-b);font-size:.9rem;font-weight:700;
+  letter-spacing:.08em;color:rgba(26,21,53,0.6);
+  display:flex;align-items:center;gap:1.5rem;flex-shrink:0;
+}
+.mdot{width:6px;height:6px;background:rgba(26,21,53,0.3);border-radius:50%;}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTION SHARED */
+section{padding:6rem 3rem;position:relative;z-index:1;}
+.sec-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  padding:.4rem 1rem;border-radius:50px;margin-bottom:1.2rem;
+}
+.sb-sky{background:var(--sky-pale);color:#2e8fb5;border:1px solid var(--sky);}
+.sb-pink{background:var(--pink-pale);color:#c45a80;border:1px solid var(--pink);}
+.sec-title{
+  font-family:var(--font-h);
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:800;line-height:1.1;margin-bottom:.8rem;color:var(--text);
+}
+.sec-title .sky-txt{background:linear-gradient(135deg,#5ab4e0,#87ceeb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sec-title .pink-txt{background:linear-gradient(135deg,#e87da8,#f4b8cc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+
+/* SERVICES */
+.services{background:var(--white);}
+.services-top{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:2rem;margin-bottom:3rem;}
+.services-desc{max-width:300px;color:var(--text2);font-size:.92rem;line-height:1.7;}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+
+/* SPECIAL PPT CARD */
+.srv-card-special{
+  grid-column:1/-1;
+  background:linear-gradient(135deg,var(--sky-pale) 0%,var(--pink-pale) 50%,var(--lav-pale) 100%);
+  border:2px solid var(--sky);border-radius:24px;
+  padding:2.5rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;gap:2rem;
+  position:relative;overflow:hidden;
+  box-shadow:0 8px 40px rgba(135,206,235,0.25);
+  transition:transform .3s,box-shadow .3s;
+}
+.srv-card-special:hover{transform:translateY(-5px);box-shadow:0 16px 50px rgba(135,206,235,0.35);}
+.srv-card-special::before{
+  content:'★ SPECIALITY';
+  position:absolute;top:1.2rem;right:1.5rem;
+  font-size:.65rem;font-weight:800;letter-spacing:.18em;
+  background:linear-gradient(135deg,var(--sky),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.special-left{}
+.special-icon{font-size:3.5rem;margin-bottom:.8rem;}
+.special-name{font-family:var(--font-h);font-size:2rem;font-weight:800;color:var(--text);margin-bottom:.6rem;}
+.special-desc{font-size:.92rem;color:var(--text2);line-height:1.7;max-width:480px;}
+.special-tags{display:flex;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap;}
+.special-right{
+  background:var(--white);border-radius:18px;padding:1.5rem 2rem;
+  min-width:200px;text-align:center;
+  border:1.5px solid rgba(135,206,235,0.3);
+  box-shadow:0 4px 20px rgba(135,206,235,0.15);
+}
+.special-right .big-num{
+  font-family:var(--font-h);font-size:3.5rem;font-weight:800;
+  background:linear-gradient(135deg,#5ab4e0,#e87da8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1;
+}
+.special-right .big-label{font-size:.72rem;color:var(--text3);font-weight:500;margin-top:.3rem;}
+
+/* Regular service cards */
+.srv-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:20px;padding:1.8rem;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+  cursor:default;position:relative;overflow:hidden;
+}
+.srv-card:hover{transform:translateY(-6px);border-color:var(--sky);box-shadow:0 12px 40px rgba(135,206,235,0.2);}
+.srv-card.pink-hover:hover{border-color:var(--pink);box-shadow:0 12px 40px rgba(244,184,204,0.25);}
+
+.srv-icon-wrap{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;margin-bottom:1.3rem;
+}
+.si1{background:var(--sky-pale);}
+.si2{background:var(--pink-pale);}
+.si3{background:var(--mint-pale);}
+.si4{background:var(--lav-pale);}
+.si5{background:var(--yellow-pale);}
+.si6{background:var(--peach-pale);}
+.si7{background:var(--sky-pale);}
+.si8{background:var(--pink-pale);}
+.si9{background:var(--mint-pale);}
+
+.srv-num{
+  font-family:var(--font-h);font-size:4rem;font-weight:800;
+  opacity:.04;position:absolute;top:.5rem;right:1rem;line-height:1;color:var(--text);
+}
+.srv-name{font-family:var(--font-h);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:.6rem;}
+.srv-desc{font-size:.84rem;color:var(--text2);line-height:1.7;}
+.srv-pill{
+  display:inline-block;margin-top:1rem;font-size:.65rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:.3rem .85rem;border-radius:50px;
+}
+
+/* ABOUT */
+.about{background:linear-gradient(135deg,var(--sky-pale),var(--pink-pale));}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.about-card{
+  background:var(--white);border-radius:28px;padding:2.8rem;
+  box-shadow:0 8px 40px rgba(135,206,235,0.2);
+  border:2px solid var(--sky-light);
+  position:relative;overflow:hidden;
+}
+.about-card::after{
+  content:'';position:absolute;bottom:-60px;right:-60px;
+  width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,var(--pink-pale),transparent 70%);
+}
+.about-initials{
+  font-family:var(--font-h);font-size:5.5rem;font-weight:800;line-height:1;
+  background:linear-gradient(135deg,#5ab4e0,#e87da8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:.8rem;
+}
+.about-name{font-family:var(--font-h);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:.3rem;}
+.about-role{font-size:.82rem;color:var(--text3);font-weight:500;}
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin-top:2rem;}
+.stat{
+  background:var(--bg);border-radius:14px;padding:1rem;text-align:center;
+  border:1px solid rgba(135,206,235,0.2);
+}
+.stat-num{
+  font-family:var(--font-h);font-size:1.8rem;font-weight:800;
+  background:linear-gradient(135deg,#5ab4e0,#e87da8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1;
+}
+.stat-label{font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem;font-weight:600;}
+.about-p{color:var(--text2);font-size:.93rem;line-height:1.85;margin-bottom:.9rem;}
+.about-p b{color:var(--text);font-weight:700;}
+.skills-wrap{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.8rem;}
+.sk{
+  font-size:.73rem;font-weight:600;padding:.38rem 1rem;border-radius:50px;
+  border:1.5px solid rgba(135,206,235,0.4);color:var(--text2);
+  background:var(--white);transition:all .2s;
+}
+.sk:hover{border-color:var(--sky);color:#2e8fb5;background:var(--sky-pale);}
+
+/* PROCESS */
+.process{background:var(--white);}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:3rem;}
+.proc-card{
+  background:var(--bg);border:1.5px solid var(--border);
+  border-radius:20px;padding:1.8rem 1.4rem;text-align:center;
+  position:relative;transition:transform .3s,border-color .3s;
+}
+.proc-card:hover{transform:translateY(-5px);border-color:var(--sky);}
+.proc-num{
+  width:50px;height:50px;border-radius:50%;margin:0 auto 1.2rem;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-h);font-size:1.1rem;font-weight:800;color:var(--white);
+}
+.pn1{background:linear-gradient(135deg,var(--sky),#5ab4e0);}
+.pn2{background:linear-gradient(135deg,var(--pink),#e87da8);}
+.pn3{background:linear-gradient(135deg,var(--mint),#3ab87a);}
+.pn4{background:linear-gradient(135deg,var(--lav),#9a7ad4);}
+.proc-conn{
+  position:absolute;right:-1.2rem;top:50%;transform:translateY(-50%);
+  width:1.2rem;height:2px;background:linear-gradient(90deg,var(--sky),var(--pink));
+  z-index:2;
+}
+.proc-card:last-child .proc-conn{display:none;}
+.proc-title{font-family:var(--font-h);font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.5rem;}
+.proc-desc{font-size:.8rem;color:var(--text2);line-height:1.6;}
+
+/* CONTACT */
+.contact-section{background:linear-gradient(135deg,var(--sky-pale) 0%,var(--white) 50%,var(--pink-pale) 100%);}
+.contact-wrap{max-width:680px;margin:0 auto;text-align:center;}
+.contact-wrap>p{color:var(--text2);font-size:.95rem;line-height:1.7;margin-bottom:2.5rem;}
+
+.contact-card{
+  background:var(--white);border:2px solid var(--sky-light);
+  border-radius:28px;padding:2.5rem;margin-bottom:1.5rem;
+  box-shadow:0 8px 40px rgba(135,206,235,0.18);
+  text-align:left;
+}
+.cf-title{font-family:var(--font-h);font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:1.5rem;text-align:center;}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-group{margin-bottom:1.1rem;}
+.form-group label{display:block;font-size:.72rem;font-weight:700;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.45rem;}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;background:var(--bg);border:1.5px solid var(--border);
+  border-radius:12px;padding:.82rem 1.1rem;
+  color:var(--text);font-family:var(--font-b);font-size:.88rem;
+  transition:border-color .2s,background .2s;resize:vertical;outline:none;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--sky);background:var(--sky-pale);
+}
+.form-group textarea{min-height:110px;}
+.form-group select option{background:var(--white);}
+
+.btn-submit{
+  width:100%;padding:1.1rem;border-radius:50px;
+  background:linear-gradient(135deg,#5ab4e0,#e87da8);
+  color:var(--white);font-family:var(--font-b);font-size:1rem;font-weight:700;
+  border:none;cursor:pointer;letter-spacing:.04em;
+  box-shadow:0 6px 24px rgba(135,206,235,0.4);
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(135,206,235,0.55);}
+.btn-submit:active{transform:scale(.98);}
+
+.contact-alts{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.alt-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:18px;padding:1.3rem;
+  text-decoration:none;color:var(--text);
+  display:flex;align-items:center;gap:.9rem;
+  box-shadow:0 2px 12px rgba(135,206,235,0.1);
+  transition:transform .2s,border-color .2s,box-shadow .2s;
+}
+.alt-card:hover{transform:translateY(-4px);border-color:var(--sky);box-shadow:0 8px 24px rgba(135,206,235,0.25);}
+.alt-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;
+}
+.ai1{background:var(--sky-pale);}
+.ai2{background:var(--pink-pale);}
+.ai3{background:var(--mint-pale);}
+.ai4{background:var(--lav-pale);}
+.alt-label{font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:700;}
+.alt-val{font-size:.83rem;font-weight:600;color:var(--text);margin-top:.15rem;}
+
+.success-msg{
+  display:none;background:var(--mint-pale);border:1.5px solid var(--mint);
+  border-radius:12px;padding:1.1rem;text-align:center;
+  color:#2a7a5a;font-weight:600;margin-top:1rem;font-size:.9rem;
+}
+.success-msg.show{display:block;}
+
+/* FOOTER */
+footer{
+  background:var(--white);border-top:2px solid var(--sky-light);
+  padding:2.2rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;
+}
+.footer-logo{
+  font-family:var(--font-h);font-size:1.3rem;font-weight:800;
+  background:linear-gradient(135deg,#5ab4e0,#e87da8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.footer-copy{font-size:.75rem;color:var(--text3);font-weight:500;}
+.footer-links{display:flex;gap:1.5rem;}
+.footer-links a{font-size:.75rem;color:var(--text3);text-decoration:none;font-weight:600;transition:color .2s;}
+.footer-links a:hover{color:#2e8fb5;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.23,1,.32,1),transform .75s cubic-bezier(.23,1,.32,1);}
+.reveal.vis{opacity:1;transform:none;}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:1.1rem 1.5rem;}
+  .nav-links{display:none;}
+  .hero{padding:7rem 1.5rem 3rem;}
+  .hero-cards{display:none;}
+  section{padding:4.5rem 1.5rem;}
+  .about-inner{grid-template-columns:1fr;gap:2.5rem;}
+  .srv-grid{grid-template-columns:1fr 1fr;}
+  .srv-card-special{flex-direction:column;align-items:flex-start;}
+  .process-grid{grid-template-columns:1fr 1fr;gap:1rem;}
+  .proc-conn{display:none;}
+  .specialty{padding:2rem 1.5rem;}
+  footer{padding:2rem 1.5rem;}
+}
+@media(max-width:560px){
+  nav{flex-wrap:wrap;justify-content:center;gap:.7rem;}
+  .logo{font-size:1.35rem;}
+  .page-switch{order:3;width:100%;justify-content:center;}
+  .page-switch a{flex:1;padding:.45rem .55rem;font-size:.68rem;}
+  .hero{padding-top:9rem;}
+  .srv-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .contact-alts{grid-template-columns:1fr;}
+  .process-grid{grid-template-columns:1fr;}
+  .stats-row{grid-template-columns:1fr 1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="floaties">
+  <div class="flt flt1"></div>
+  <div class="flt flt2"></div>
+  <div class="flt flt3"></div>
+  <div class="flt flt4"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">T.E. Lab ✿</a>
+  <div class="page-switch" aria-label="Switch T.E. Lab service page">
+    <a href="te-lab_2.html" class="active" aria-current="page">Graphic Design</a>
+    <a href="engineering-products.html">Engineering Products</a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me ✦</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">Creative Design Studio · Pune, India</div>
+  <h1 class="hero-title">
+    <span class="sky-txt">Creative</span><br>
+    Designs That<br>
+    <span class="pink-txt">Wow. ✦</span>
+  </h1>
+  <p class="hero-sub">
+    Hi! I'm <b>Tamalkrishna Pawar</b> — founder of T.E. Lab.<br>
+    I craft beautiful visuals for your brand, events, career & social media.
+  </p>
+  <div class="hero-pills">
+    <span class="pill pl-sky">🎨 Posters</span>
+    <span class="pill pl-pink">💌 Invitations</span>
+    <span class="pill pl-mint">📄 Resumes</span>
+    <span class="pill pl-lav">🏷️ Logos</span>
+    <span class="pill pl-yellow">📊 PPT <b>★ Speciality</b></span>
+    <span class="pill pl-peach">💼 Business Cards</span>
+  </div>
+  <div class="hero-btns">
+    <a href="#contact" class="btn-sky">Let's Work Together →</a>
+    <a href="#services" class="btn-pink">See All Services ↓</a>
+    <a href="engineering-products.html" class="btn-pink">Engineering + Apps</a>
+  </div>
+
+  <div class="hero-cards">
+    <div class="mc"><div class="mc-icon mi1">📊</div><div class="mc-txt">PPT Design<span>★ Speciality</span></div></div>
+    <div class="mc"><div class="mc-icon mi2">🎨</div><div class="mc-txt">Poster Design<span>Events & Promos</span></div></div>
+    <div class="mc"><div class="mc-icon mi3">💌</div><div class="mc-txt">Invitations<span>Wedding & Events</span></div></div>
+    <div class="mc"><div class="mc-icon mi4">📖</div><div class="mc-txt">Brochures<span>Print & Digital</span></div></div>
+    <div class="mc"><div class="mc-icon mi5">📄</div><div class="mc-txt">Resume Design<span>Get Hired</span></div></div>
+  </div>
+</section>
+
+<!-- SPECIALTY BANNER -->
+<div class="specialty">
+  <div class="spec-badge star">
+    <span class="spec-icon">📊</span>
+    <div class="spec-text">PowerPoint / Presentations <span class="star-tag">★ Speciality</span><span>Stunning slides that impress every audience</span></div>
+  </div>
+  <div class="spec-badge">
+    <span class="spec-icon">⚡</span>
+    <div class="spec-text">Fast Delivery<span>Quick turnaround on every project</span></div>
+  </div>
+  <div class="spec-badge">
+    <span class="spec-icon">💯</span>
+    <div class="spec-text">100% Satisfaction<span>Revisions until you love it</span></div>
+  </div>
+  <div class="spec-badge">
+    <span class="spec-icon">🌟</span>
+    <div class="spec-text">Affordable Pricing<span>Quality design, fair rates</span></div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="mtrack">
+    <div class="marquee-item">PPT Design ★<span class="mdot"></span></div>
+    <div class="marquee-item">Poster Design<span class="mdot"></span></div>
+    <div class="marquee-item">Business Cards<span class="mdot"></span></div>
+    <div class="marquee-item">Resume Design<span class="mdot"></span></div>
+    <div class="marquee-item">Instagram Posts<span class="mdot"></span></div>
+    <div class="marquee-item">Logo Design<span class="mdot"></span></div>
+    <div class="marquee-item">Flyers<span class="mdot"></span></div>
+    <div class="marquee-item">Invitations<span class="mdot"></span></div>
+    <div class="marquee-item">Brochures<span class="mdot"></span></div>
+    <div class="marquee-item">Ad Creatives<span class="mdot"></span></div>
+    <div class="marquee-item">PPT Design ★<span class="mdot"></span></div>
+    <div class="marquee-item">Poster Design<span class="mdot"></span></div>
+    <div class="marquee-item">Business Cards<span class="mdot"></span></div>
+    <div class="marquee-item">Resume Design<span class="mdot"></span></div>
+    <div class="marquee-item">Instagram Posts<span class="mdot"></span></div>
+    <div class="marquee-item">Logo Design<span class="mdot"></span></div>
+    <div class="marquee-item">Flyers<span class="mdot"></span></div>
+    <div class="marquee-item">Invitations<span class="mdot"></span></div>
+    <div class="marquee-item">Brochures<span class="mdot"></span></div>
+    <div class="marquee-item">Ad Creatives<span class="mdot"></span></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-top">
+    <div>
+      <div class="sec-badge sb-sky reveal">✦ What I Do</div>
+      <h2 class="sec-title reveal">All <span class="sky-txt">Services</span></h2>
+    </div>
+    <p class="services-desc reveal">From logos to presentations — beautiful designs for every need. Fast, affordable, and made with love. 💕</p>
+  </div>
+  <div class="srv-grid">
+
+    <!-- PPT SPECIALITY CARD - full width -->
+    <div class="srv-card-special reveal">
+      <div class="special-left">
+        <div class="special-icon">📊</div>
+        <div class="special-name">PowerPoint / Presentation Design</div>
+        <p class="special-desc">My absolute speciality! I create stunning, professional presentations for college projects, business pitches, product launches, and more. Clean layouts, on-brand colours, impactful slides — every single time.</p>
+        <div class="special-tags">
+          <span class="pill pl-sky">College Projects</span>
+          <span class="pill pl-pink">Business Pitches</span>
+          <span class="pill pl-mint">Product Launches</span>
+          <span class="pill pl-lav">Seminars</span>
+          <span class="pill pl-yellow">Annual Reports</span>
+        </div>
+      </div>
+      <div class="special-right">
+        <div class="big-num">★</div>
+        <div class="big-label" style="font-weight:700;font-size:.8rem;color:var(--text);margin-top:.5rem;">Speciality</div>
+        <div class="big-label" style="margin-top:.3rem;">Most requested service</div>
+        <a href="#contact" class="btn-sky" style="display:block;text-align:center;margin-top:1.2rem;font-size:.82rem;padding:.75rem 1.2rem;">Order Now →</a>
+      </div>
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="srv-card reveal">
+      <div class="srv-num">01</div>
+      <div class="srv-icon-wrap si1">🎨</div>
+      <div class="srv-name">Poster Design</div>
+      <p class="srv-desc">Eye-catching posters for events, promotions & campaigns that stop people in their tracks.</p>
+      <span class="srv-pill pl-sky">Events & Promos</span>
+    </div>
+    <div class="srv-card pink-hover reveal">
+      <div class="srv-num">02</div>
+      <div class="srv-icon-wrap si2">📢</div>
+      <div class="srv-name">Advertisement Ads</div>
+      <p class="srv-desc">Digital & print ad creatives designed to convert — from social banners to full-page ads.</p>
+      <span class="srv-pill pl-pink">High Impact</span>
+    </div>
+    <div class="srv-card reveal">
+      <div class="srv-num">03</div>
+      <div class="srv-icon-wrap si3">📄</div>
+      <div class="srv-name">Resume Design</div>
+      <p class="srv-desc">Sharp, ATS-friendly resumes that make recruiters stop and call you back immediately.</p>
+      <span class="srv-pill pl-mint">Get Hired</span>
+    </div>
+    <div class="srv-card pink-hover reveal">
+      <div class="srv-num">04</div>
+      <div class="srv-icon-wrap si4">💼</div>
+      <div class="srv-name">Business Cards</div>
+      <p class="srv-desc">Premium card designs — print or digital — that leave a lasting impression every time.</p>
+      <span class="srv-pill pl-lav">Brand Identity</span>
+    </div>
+    <div class="srv-card reveal">
+      <div class="srv-num">05</div>
+      <div class="srv-icon-wrap si5">📱</div>
+      <div class="srv-name">Instagram Posts</div>
+      <p class="srv-desc">Feed posts, stories, reels covers & carousels crafted to grow your following and engagement.</p>
+      <span class="srv-pill pl-yellow">Social Media</span>
+    </div>
+    <div class="srv-card pink-hover reveal">
+      <div class="srv-num">06</div>
+      <div class="srv-icon-wrap si6">🏷️</div>
+      <div class="srv-name">Logo Design</div>
+      <p class="srv-desc">Memorable logos that define your brand — clean, versatile, built to work everywhere.</p>
+      <span class="srv-pill pl-peach">Branding</span>
+    </div>
+    <div class="srv-card reveal">
+      <div class="srv-num">07</div>
+      <div class="srv-icon-wrap si7">📰</div>
+      <div class="srv-name">Flyers</div>
+      <p class="srv-desc">Bold, attention-grabbing flyers for events, offers & promotions — made to be picked up and read.</p>
+      <span class="srv-pill pl-sky">Print & Digital</span>
+    </div>
+    <div class="srv-card pink-hover reveal">
+      <div class="srv-num">08</div>
+      <div class="srv-icon-wrap si8">💌</div>
+      <div class="srv-name">Invitations</div>
+      <p class="srv-desc">Elegant wedding, birthday & event invitations that set the perfect tone before guests even arrive.</p>
+      <span class="srv-pill pl-pink">Celebrations</span>
+    </div>
+    <div class="srv-card reveal">
+      <div class="srv-num">09</div>
+      <div class="srv-icon-wrap si9">📖</div>
+      <div class="srv-name">Brochures</div>
+      <p class="srv-desc">Professional tri-fold & bi-fold brochures that present your business or product beautifully.</p>
+      <span class="srv-pill pl-mint">Marketing</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-card reveal">
+      <div class="about-initials">TKP</div>
+      <div class="about-name">Tamalkrishna Pawar</div>
+      <div class="about-role">Founder & Designer · T.E. Lab · Pune</div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Projects</div></div>
+        <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Services</div></div>
+        <div class="stat"><div class="stat-num">💯</div><div class="stat-label">Quality</div></div>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="sec-badge sb-pink reveal">✿ The Person Behind It</div>
+      <h2 class="sec-title reveal">Hey, I'm <span class="pink-txt">Tamal!</span> 👋</h2>
+      <p class="about-p reveal"><b>T.E. Lab</b> — The Expressionist Lab — is my creative studio where ideas become beautiful, purposeful visuals.</p>
+      <p class="about-p reveal">My speciality is <b>PowerPoint & Presentation Design</b> — I create slides that don't just look good, they communicate powerfully. Whether it's a college project or a client pitch, I make it shine.</p>
+      <p class="about-p reveal">Based in <b>Pune, Maharashtra</b>, I work with students, freelancers, startups & small businesses who want quality design at fair prices — with fast delivery & zero stress.</p>
+      <div class="skills-wrap reveal">
+        <span class="sk">MS PowerPoint</span>
+        <span class="sk">Adobe Photoshop</span>
+        <span class="sk">Illustrator</span>
+        <span class="sk">Canva Pro</span>
+        <span class="sk">InDesign</span>
+        <span class="sk">Typography</span>
+        <span class="sk">Brand Design</span>
+        <span class="sk">Social Media</span>
+        <span class="sk">Print Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div style="text-align:center;margin-bottom:.5rem;">
+    <div class="sec-badge sb-sky reveal" style="margin:0 auto 1rem;">✦ How It Works</div>
+    <h2 class="sec-title reveal">Simple <span class="sky-txt">4-Step</span> Process</h2>
+  </div>
+  <div class="process-grid">
+    <div class="proc-card reveal">
+      <div class="proc-num pn1">1</div>
+      <div class="proc-title">Share Your Idea</div>
+      <p class="proc-desc">Fill the form or message me with your requirements, deadline, and any references you have.</p>
+      <div class="proc-conn"></div>
+    </div>
+    <div class="proc-card reveal">
+      <div class="proc-num pn2">2</div>
+      <div class="proc-title">I Design It</div>
+      <p class="proc-desc">I get to work crafting your design with care, keeping your vision and brand in mind.</p>
+      <div class="proc-conn"></div>
+    </div>
+    <div class="proc-card reveal">
+      <div class="proc-num pn3">3</div>
+      <div class="proc-title">Review & Refine</div>
+      <p class="proc-desc">You review the draft and I make tweaks until you're 100% happy with the result.</p>
+      <div class="proc-conn"></div>
+    </div>
+    <div class="proc-card reveal">
+      <div class="proc-num pn4">4</div>
+      <div class="proc-title">Get Your Files!</div>
+      <p class="proc-desc">Final files delivered in your preferred format — print-ready or digital, ready to use instantly.</p>
+      <div class="proc-conn"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-wrap">
+    <div class="sec-badge sb-pink reveal" style="margin:0 auto 1rem;">✿ Get In Touch</div>
+    <h2 class="sec-title reveal">Let's Create Something <span class="pink-txt">Beautiful!</span></h2>
+    <p class="reveal">Fill the form below and I'll reply within 24 hours. Fast, friendly, and stress-free. 💕</p>
+
+    <div class="contact-card reveal">
+      <div class="cf-title">✦ Send Me a Message</div>
+      <form id="contactForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name *</label>
+            <input type="text" name="name" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label>Email / Phone *</label>
+            <input type="text" name="contact" placeholder="email or phone number" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Service Needed *</label>
+          <select name="service" required>
+            <option value="" disabled selected>Choose a service...</option>
+            <option>⭐ PPT / Presentation Design (Speciality)</option>
+            <option>Poster Design</option>
+            <option>Advertisement / Ad Creative</option>
+            <option>Resume Design</option>
+            <option>Business Card Design</option>
+            <option>Instagram Posts / Social Media</option>
+            <option>Logo Design</option>
+            <option>Flyer Design</option>
+            <option>Invitation Design</option>
+            <option>Brochure Design</option>
+            <option>Custom / Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell Me About Your Project *</label>
+          <textarea name="message" placeholder="What do you need? Deadline? Any references or ideas? The more details, the better! 😊" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">Send Message ✦</button>
+      </form>
+      <div class="success-msg" id="successMsg">🎉 Message sent! I'll get back to you within 24 hours. Thank you!</div>
+    </div>
+
+    <div class="contact-alts reveal">
+      <a href="mailto:tamalkrishna2006@gmail.com" class="alt-card">
+        <div class="alt-icon ai1">✉️</div>
+        <div><div class="alt-label">Email Me</div><div class="alt-val">tamalkrishna2006@gmail.com</div></div>
+      </a>
+      <a href="tel:+919423276135" class="alt-card">
+        <div class="alt-icon ai2">📞</div>
+        <div><div class="alt-label">Call / Text</div><div class="alt-val">+91 94232 76135</div></div>
+      </a>
+      <a href="https://wa.me/919423276135" target="_blank" class="alt-card">
+        <div class="alt-icon ai3">💬</div>
+        <div><div class="alt-label">WhatsApp</div><div class="alt-val">Chat instantly on WhatsApp</div></div>
+      </a>
+      <a href="https://instagram.com" target="_blank" class="alt-card">
+        <div class="alt-icon ai4">📸</div>
+        <div><div class="alt-label">Instagram</div><div class="alt-val">DM me on Instagram</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">T.E. Lab ✿</div>
+  <p class="footer-copy">© 2025 T.E. Lab by Tamalkrishna Pawar · Pune, Maharashtra</p>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cur = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a,button,.srv-card,.srv-card-special,.alt-card,.mc,.spec-badge').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('big'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('vis'), i * 60);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Form submit → opens mail client
+function handleSubmit(ev) {
+  ev.preventDefault();
+  const f = ev.target;
+  const name = f.name.value;
+  const contact = f.contact.value;
+  const service = f.service.value;
+  const message = f.message.value;
+  const subject = encodeURIComponent('New Design Request — ' + service + ' | T.E. Lab');
+  const body = encodeURIComponent(
+    'Hi Tamalkrishna!\n\n' +
+    'Name: ' + name + '\n' +
+    'Contact: ' + contact + '\n' +
+    'Service: ' + service + '\n\n' +
+    'Project Details:\n' + message + '\n\n' +
+    '— Sent via T.E. Lab website'
+  );
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Opening email... ✉️';
+  btn.disabled = true;
+  window.location.href = 'mailto:tamalkrishna2006@gmail.com?subject=' + subject + '&body=' + body;
+  setTimeout(() => {
+    document.getElementById('successMsg').classList.add('show');
+    f.reset();
+    btn.textContent = 'Send Message ✦';
+    btn.disabled = false;
+  }, 1600);
+}
+
+// Duplicate marquee
+const mt = document.getElementById('mtrack');
+mt.innerHTML += mt.innerHTML;
+</script>
+</body>
+</html>
